@@ -3,6 +3,7 @@ import math
 import numpy
 import urllib
 
+
 def writeToFile(books, thesis, chapters, journals, conference, techreports, unpub):
 
 	f = open("PublicationNumbers.tex", 'w')
@@ -70,7 +71,6 @@ def main():
 
 			# check that the num is a valid integer and positive 
 			if num.isdigit():
-
 
 				if "inbook" in line:
 					chap.append(int(num))

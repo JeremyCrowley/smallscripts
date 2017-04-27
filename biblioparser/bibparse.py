@@ -1,7 +1,7 @@
 
 import math
 import numpy
-
+import urllib
 
 def writeToFile(books, thesis, chapters, journals, conference, techreports, unpub):
 
@@ -34,6 +34,10 @@ def writeToFile(books, thesis, chapters, journals, conference, techreports, unpu
 
 def main():
 
+	# download biblio file from HSL website
+	bibdownload = urllib.URLopener()
+	bibdownload.retrieve("https://hybrid.soe.ucsc.edu/biblio/export/bibtex", "Biblio-Bibtex.bib")
+
 	thes = []
 	book = []
 	chap = []
@@ -42,12 +46,15 @@ def main():
 	tech = []
 	unpub = []
 
+	# open file an iterate though lines
 	bibfile = open("Biblio-Bibtex.bib");
 
 	for line in bibfile:
 
+		# @ in line denote a publication entry
 		if "@" in line:
 
+			# check for number inbetween bracket and comma
 			bracket = line.index("{")
 			comma = line.index(",")
 
@@ -57,7 +64,7 @@ def main():
 
 			num = line[bracket+1:comma]
 
-
+			# take away negative sign
 			if(num[0] == "-"):
 				num = num[1:]
 
@@ -81,10 +88,9 @@ def main():
 					unpub.append(int(num))
 				else:
 					print "type not found: " + line
-			else:
-				print num
+			
 
-
+	# write the contents of each list into the new file
 	writeToFile(book, thes, chap, jour, conf, tech, unpub)
 
 
